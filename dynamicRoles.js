@@ -4,10 +4,9 @@
  */
 
 'use strict';
-/*global exports, require, Parse*/
+/*global exports, require, Parse, console*/
 /** @module dynamicRoles */
 
-var LOG = require('cloud/log.js');
 var _ = require('underscore');
 var _roleDefinitions = [];
 var _mode;
@@ -557,4 +556,37 @@ var processRoleInQueryResult = function(roleName, roles, promise) {
 		LOG.debug("Role found, all good", roleName);
 		promise.resolve();
 	}
+};
+
+//logging
+var LOG = {};
+LOG.debug = function() {
+	var message = "";
+	for (var i = 0; i < arguments.length; i++) {
+		message += "" + arguments[i];
+		if (i <= arguments.length - 2) {
+			message += ", ";
+		}
+	}
+	console.log(message);
+};
+
+LOG.logObject = function(obj) {
+	console.log(JSON.stringify(obj, null, 4));
+};
+
+LOG.error = function(message, error) {
+	var errorLog = "";
+	if (error) {
+		errorLog = " (Error " + error.code + ": " + error.message + ")";
+	}
+	console.error(message + errorLog);
+};
+
+LOG.errornx = function(message, error) {
+	var errorLog = "";
+	if (error) {
+		errorLog = " (Error " + error.code + ": " + error.message + ")";
+	}
+	console.error("UNEXPECTED ERROR: " + message + errorLog);
 };
