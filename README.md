@@ -1,7 +1,7 @@
 parse-dynamic-roles
 ===================
 
-This module allows objects on Parse to be access-restricted based on rules. You can define a set of rules and have this module create roles and ACLs dynamically based on those rules.
+This module allows objects on [Parse](https://parse.com/) to be access-restricted based on rules. You can define a set of rules and have this module create roles and ACLs dynamically based on those rules. We developed developed it at [Update Zen](http://www.updatezen.com/) to help us secure our users' data.
 
 This is a very early version just copied out of the project where it was created. I will clean up the code going forward and extend the documentation. However, the module should work as is and you should be able to start using it following the instructions below.
 
