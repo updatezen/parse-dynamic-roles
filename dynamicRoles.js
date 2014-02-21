@@ -390,8 +390,7 @@ var executeDynamicRolesForOneCollection = function(remainingRoleDefinitions) {
 Parse.Cloud.job("executeDynamicRoles", function(request, status) {
 	LOG.debug("executeDynamicRoles job runs");
 
-	//we need to execute collections sequentially because of dependencies between RCO and other objects.
-	executeDynamicRolesForOneCollection(_roleDefinitions)
+	exports.executeDynamicRoles()
 	.then(function success() {
 		LOG.debug("executeDynamicRoles job complete");
 		status.success("complete");
@@ -400,6 +399,11 @@ Parse.Cloud.job("executeDynamicRoles", function(request, status) {
 		status.error("Error executing delayed roles");
 	});
 });
+
+exports.executeDynamicRoles = function() {
+	//we need to execute collections sequentially because of dependencies between RCO and other objects.
+	return executeDynamicRolesForOneCollection(_roleDefinitions);
+};
 
 var getRoleName = function(className, objectId, roleType) {
 	return className + "-" + objectId + "-" + roleType;
