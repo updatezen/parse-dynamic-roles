@@ -405,6 +405,24 @@ exports.executeDynamicRoles = function() {
 	return executeDynamicRolesForOneCollection(_roleDefinitions);
 };
 
+/**
+ * Executes dynamic roles for a single object
+ * @param  {Object} obj - The Parse.Object to execute roles for. A role definition must be available for the object.
+ * @return {Parse.Promise}     - Return a promise that gets resolved when dynamic roles are executed for the object.
+ */
+exports.executeDynamicRolesForObject = function(obj) {
+	var roleDef = findRoleDefinition(obj.className);
+	if (roleDef) {
+		var query = new Parse.Query(roleDef.collection);
+		return query.get(obj.id)
+		.then(function success(fetchedObject) {
+			return doAfterSave(obj, roleDef, roleDef.collection);
+		});
+	} else {
+		return Parse.Promise.error("No role definition found");
+	}
+};
+
 var getRoleName = function(className, objectId, roleType) {
 	return className + "-" + objectId + "-" + roleType;
 };
